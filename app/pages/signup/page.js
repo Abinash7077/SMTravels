@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import Link from "next/link";
-const page = () => {
+const Page = () => {
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -69,4 +69,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
