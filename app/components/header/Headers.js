@@ -18,7 +18,7 @@ const Headers = () => {
     };
   },[])
   return (
-    <div className={`w-[100%] bg-white h-[12vh] font-sans ${isScrolled?'top-[0%] bg-slate-800 text-white':'top-[5%]'} fixed z-10 `}>
+    <div className={`w-[100%] bg-white h-[12vh] font-sans ${isScrolled?'top-[0%] bg-gray-800 text-white':'top-[5%]'} fixed z-10 `}>
       <div className="flex w-[80%] items-center h-full mx-auto justify-between">
         <div className="flex items-center h-full ">
           <h2 className='text-xl font-serif font-bold'>Let's <span className='text-orange-500'>TRAVEL</span></h2>
