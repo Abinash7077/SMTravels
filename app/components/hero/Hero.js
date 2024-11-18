@@ -1,7 +1,8 @@
 'use client'
 import React, { useState } from "react";
-
+import { useRouter } from "next/navigation";
 const Hero = () => {
+  const router=useRouter()
   const [vehicleType,setVehicleType] = useState('select')
   console.log(vehicleType,"veh")
   return (
@@ -84,9 +85,9 @@ const Hero = () => {
                     </select>
                   </div>
                 </div>
-                <div className="flex w-full h-full items-center rounded-r-[60px] bg-orange-500">
+                <div className="flex w-full h-full items-center rounded-r-[60px] bg-orange-500 hover:bg-orange-600 ">
                   <div className="w-full h-full flex items-center justify-center">
-                    <button className="text-white text-lg">Search</button>
+                    <button onClick={()=>router.push('/pages/bookNow')} className="text-white text-lg">Search</button>
                   </div>
                 </div>
               </div>
