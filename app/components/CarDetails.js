@@ -1,6 +1,11 @@
 'use client'
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
+import { motion,useInView } from "framer-motion";
+import { useRouter } from "next/navigation";
 const CarDetails = () => {
+  const router=useRouter();
+  const ref=useRef(null);
+  const isInView=useInView(ref,{once:false})
   const [visibleProducts, setVisibleProducts] = useState(3);
  
   const popularPlaces = [
@@ -139,14 +144,19 @@ const CarDetails = () => {
     }
   };
   return (
-    <div className="w-[80%] mx-auto h-fit">
-      <div className="w-full h-full my-16">
-        <div className="flex gap-4 flex-col">
+    <div  className="w-[80%] mx-auto h-fit">
+      <motion.div ref={ref} className="w-full h-full my-16">
+        <motion.div
+        initial={{ opacity: 0,x:-150 }}
+        animate={isInView?{ opacity: 1,x:0 }:{opacity:0,x:-150}}
+        transition={{ duration: 1,delay:0.6, ease:'easeInOut',type:'spring',stiffness:400,damping:40 }}
+        viewport={{ once: false, amount: 0.6 }}
+         className="flex gap-4 flex-col">
           <h3 className="font-semibold text-4xl">Our Awesome Vehicles</h3>
           <p className="text-gray-500 text-md">
             Travel in a safest way
           </p>
-        </div>
+        </motion.div>
         <div className="w-full my-4 h-full gap-4 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
           {popularPlaces.length > 0 &&
             popularPlaces.slice(0, visibleProducts).map((item, index) => {
@@ -166,9 +176,14 @@ const CarDetails = () => {
               } = item;
               return (
                   (
-                  <div
+                  <motion.div
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  whileOutOfView={{ opacity: 0 }}
+                  transition={{ duration: 1,delay:0.4, ease:'easeInOut' }}
+                  viewport={{ once: false, amount: 0.6 }}
                     key={index}
-                    className="bg-white relative w-full h-[300px] rounded-xl"
+                    className="bg-white shadow-xl shadow-slate-400 relative w-full h-[300px] rounded-xl"
                   >
                     <img
                       src={itemImage}
@@ -195,11 +210,11 @@ const CarDetails = () => {
                       </div>
                     </div>
                     <div className="flex items-center justify-center absolute bottom-0 w-full">
-                      <button className="bg-orange-500 w-full  mt-1 rounded-b-md py-[5px] px-4 text-white text-xs">
-                        View Details
-                      </button>
+                      <motion.button whileHover={{backgroundColor:'rgb(234, 88, 12)'}} transition={{duration:0.5,delay:0.1,ease:'easeIn',type:'spring',stiffness:200,damping:20}} className="bg-orange-500 w-full  mt-1 rounded-b-md py-[5px] px-4 text-white text-xs" onClick={()=>router.push('/pages/bookNow')}>
+                        Book Now
+                      </motion.button>
                     </div>
-                  </div>
+                  </motion.div>
                   )
               );
             })}
@@ -221,7 +236,7 @@ const CarDetails = () => {
           </button>
         )}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

@@ -1,7 +1,13 @@
+'use client'
 import React from "react";
 import { IoLocationSharp } from "react-icons/io5";
-
+import { useRouter } from "next/navigation";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 const Destination = () => {
+  const ref=useRef(null);
+  const router=useRouter();
+  const isInView=useInView(ref,{once:false})
   const popularPlaces=[
     {
       itemImage:'/Images/puri.jpg',
@@ -54,16 +60,18 @@ const Destination = () => {
   ]
   return (
     <div className="w-[80%] mx-auto h-fit">
-      <div className="w-full h-full my-16">
-        <div className="flex gap-4 flex-col">
+      <div ref={ref} className="w-full h-full my-16">
+        <motion.div animate={isInView?{x:0,opacity:1}:{x:-150,opacity:0}} initial={{x:-150,opacity:0}} transition={{duration:0.8,delay:0.2,ease:'easeInOut',type:'spring',stiffness:200,damping:20}}  className="flex gap-4 flex-col">
         <h3 className="font-semibold text-4xl">Find Popular Trips</h3>
         <p className="text-gray-500 text-md">Whether You're looking for places for a tour. We are here to</p>
-        </div>
+        </motion.div>
         <div className="w-full my-4 h-full gap-4 grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 ">
         {
           popularPlaces.length>0 && (
             popularPlaces.map((item,index)=>(
-              <div key={index} className="bg-white relative w-full h-[300px] rounded-xl">
+              <motion.div  initial={{ x:-150,opacity: 0 }}
+              animate={isInView?{x:0,opacity:1}:{x:-150,opacity:0}}
+              transition={{ delay: index * 0.2, duration: 0.6 }} key={index} className="bg-white shadow-xl shadow-slate-400 relative w-full h-[300px] rounded-xl">
             <img src={item.itemImage} className="rounded-t-xl w-full h-[55%]" alt="" />
             <div className="w-full  h-fit">
               <div className="w-full h-fit p-2">
@@ -93,15 +101,15 @@ const Destination = () => {
               
             </div>
             <div className="flex items-center justify-center absolute bottom-0 w-full">
-                  <button className="bg-orange-500 w-full  mt-1 rounded-b-md py-[5px] px-4 text-white text-xs">View Details</button>
+                  <motion.button whileHover={{backgroundColor:'rgb(234, 88, 12)'}} transition={{duration:0.5,delay:0.1,ease:'easeIn',type:'spring',stiffness:200,damping:20}} className="bg-orange-500 w-full  mt-1 rounded-b-md py-[5px] px-4 text-white text-xs" onClick={()=>router.push('/pages/bookNow')}>Book Now</motion.button>
                 </div>
-          </div>
+          </motion.div>
             ))
           )
         } 
         </div>
         <div className="w-full flex items-center justify-center ">
-          <button className="text-white bg-orange-500 px-6 py-2 rounded-md text-sm">View More</button>
+          <motion.button whileHover={{backgroundColor:'rgb(234, 88, 12)'}} transition={{duration:0.5,delay:0.1,ease:'easeIn',type:'spring',stiffness:200,damping:20}}  className="text-white bg-orange-500 px-6 py-2 rounded-md text-sm">View More</motion.button>
         </div>
       </div>
     </div>

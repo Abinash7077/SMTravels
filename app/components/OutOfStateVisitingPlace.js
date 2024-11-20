@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
-import { IoLocationSharp } from "react-icons/io5";
+import React, { useRef } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-const page = () => {
+import { motion, useInView } from "framer-motion";
+const OutOfStateVisitingPlace = () => {
   const router = useRouter();
+  const ref = useRef();
+  const isInView = useInView(ref, { once: false });
   const popularPlaces = [
     {
       itemImage: "/Images/goa.jpg",
@@ -61,22 +62,33 @@ const page = () => {
       itemSharing: 2,
     },
   ];
+
   return (
-    <>
-      <div className="bg-[url('/Images/bg.jpg')] w-full bg-cover bg-center h-[25rem]">
-        <div className="bg-[rgba(0,0,0,0.5)] w-full h-full flex items-center justify-center">
-          <div className="w-full h-full flex flex-col items-center text-white justify-center">
-            <h3 className="text-white font-bold text-3xl mb-4">
-              Plan Your <span className="text-orange-500">Trip</span>
-            </h3>
-            <p className="text-white">
-              Find your <span className="text-orange-500">Packages</span>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className="w-full h-fit">
-        <div className="w-[85%] mx-auto my-8 h-full gap-6 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
+    <div className="w-[80%] mx-auto h-fit">
+      <div ref={ref} className="w-full h-full mt-16">
+        <motion.div
+          initial={{ opacity: 0, x: -150 }}
+          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -150 }}
+          transition={{
+            duration: 0.9,
+            delay: 0.6,
+            ease: "easeInOut",
+            type: "spring",
+            stiffness: 400,
+            damping: 40,
+          }}
+          className="flex gap-4 flex-col"
+        >
+          <h3 className="font-semibold text-4xl">
+            Trending & Popular Packages
+          </h3>
+          <p className="text-gray-500 text-md">
+            Enjoy seamless travel with our all-in-one service for transportation
+            and comfortable stays, offering unmatched convenience and value for
+            tourists!
+          </p>
+        </motion.div>
+        <div className="w-full my-4 h-full gap-4 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {popularPlaces.length > 0 &&
             popularPlaces.map((item, index) => {
               const {
@@ -89,9 +101,22 @@ const page = () => {
                 itemSharing,
               } = item;
               return (
-                <div
+                <motion.div
+                  initial={{ opacity: 0, x: -150 }}
+                  animate={
+                    isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -150 }
+                  }
+                  transition={{
+                    duration: 1,
+                    delay: index*0.2,
+                    ease: "easeInOut",
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 40,
+                  }}
+                  viewport={{ once: false, amount: 0.6 }}
                   key={index}
-                  className="bg-white relative w-full h-[170px] rounded-xl"
+                  className="bg-white shadow-xl shadow-slate-400 relative w-full h-[170px] rounded-xl"
                 >
                   <div className="flex items-center gap-2">
                     <img
@@ -99,7 +124,7 @@ const page = () => {
                       className="rounded-tl-xl w-[120px] object-cover h-[150px]"
                       alt=""
                     />
-                    <div className="w-full  h-fit">
+                    <div className="w-full h-fit">
                       <div className="w-full h-fit p-2">
                         <h3 className="text-xl font-semibold">{itemName}</h3>
                         <div className="flex items-center text-sm text-gray-600 font-[500] gap-2">
@@ -107,8 +132,8 @@ const page = () => {
                             {itemDays > 1
                               ? `${itemDays} days`
                               : `${itemDays} day`}
-                          </p>{" "}
-                          |{" "}
+                          </p>
+                          |
                           <p>
                             {itemNight > 1
                               ? `${itemNight} nights`
@@ -121,14 +146,14 @@ const page = () => {
                           </p>
                         </div>
                         <p className="text-sm w-fit rounded-sm text-gray-600 flex gap-2 items-center">
-                          Maximum{" "}
+                          Maximum
                           {itemPersonAllowed > 1
                             ? `${itemPersonAllowed} persons`
-                            : `${itemPersonAllowed} person`}{" "}
+                            : `${itemPersonAllowed} person`}
                           are allowed.
                         </p>
                         <p className="text-sm w-fit rounded-sm text-red-600 font-bold flex gap-2 items-center">
-                          &#8377;{itemTripPrice}/-
+                          &#8377; {itemTripPrice}/-
                         </p>
                       </div>
                     </div>
@@ -144,19 +169,19 @@ const page = () => {
                         stiffness: 200,
                         damping: 20,
                       }}
-                      className="bg-orange-500 w-full  mt-1 rounded-b-lg py-[5px] px-4 text-white text-xs"
                       onClick={() => router.push("/pages/bookNow")}
+                      className="bg-orange-500 w-full mt-1 rounded-b-md py-[5px] px-4 text-white text-xs"
                     >
                       Book Now
                     </motion.button>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
-export default page;
+export default OutOfStateVisitingPlace;
